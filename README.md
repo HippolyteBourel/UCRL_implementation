@@ -48,11 +48,41 @@ run_exp(rendermode='', testName = 'three-state-bernoulli', sup = '_0')
 ```
 The list of available environments is proposed in following subsection, the 'sup' input parameter add a the given string at the end of binary files name (when you use pickle to save), it usefulle when you parallelize experiments (which is by the way the fastest way to run big experiments in personnal computer like I did, python run only one process in you computer, so you can optimize the computation time by running one python process in each core (times 2 if multi-threaded) that's not the optimal way to di this, and my change this by using multiprocesing package later).
 
-If you modify the "rendermode" input (which I strongly advise against) you can add some dynamic display of the environment, but it is just too slow to be used in practice.
+If you modify the "rendermode" input (which I strongly advise against, the best one is '') you can add some dynamic display of the environment, but it is just too slow to be used in practice (two others inputs are 'pylab' and 'text').
 
 ### Available environments
 
-Not done
+For a proper introduction of our environment (value of reward, shape...) look I advice to have a look to my report. All environment are defined in the files contained in the \experiments\environments folder (plus an additional file named equivalence.py containing function usefull to test the C-UCRL families of learner (as for example the function computing equivalences classes for a given environment, usefull when you need this knowledge for your learner, you may notice that this function is by default runned in the run_exp function from \environments\expUCRL.py function si you don't really need to pay attention to this).
+
+The testing base is built on gym package from OpenAI. The currently availabe environment are:
+
+'riverSwim' (or in practice any input that is not mentionned later, because it is the default choice) it is a 6-states communicating riverSwim environment.
+
+'riverSwim25' it is a 25-states communicating riverSwim environment.
+
+'riverSwim25_biclass' it is 25-state communicating riverSwim environment with transition probability for the middle states cut in two subset (the first half of 'middle states' have a 0.6 proba to right will performing the going right action, the second half is as usual). (used to test C-UCRL learner, based on quivalence classes notion)
+
+'riverSwim25_shuffle' similar to the previous one, but instead of changing transition probabilities in the midddle it alternates. (used to test C-UCRL learner, based on quivalence classes notion)
+
+'riverSwimErgo50' it is a 50-states ergodic riverSwim environment.
+
+'riverSwimErgo25'it is a 25-states ergodic riverSwim environment.
+
+'riverSwimErgo'it is a 6-states ergodic riverSwim environment.
+
+'three-state-bernoulli' the three state environment built as shown in my report, similar to the one proposed in SCAL's paper from Fruit et al., to modify its delta input modify the input of the buildThreeState(...) function in the \experiments\expUCRL.py file. An additionnal comment about this environment is that the single transitions starting from states 0 and 1 are doubled because there are two actions possibles in each states, but the result is the same in both cases and doesn't not affect the learner or the results, this particularity comes from the fact that currently learners needs enronments with same number of actions in each states, this should not be too difficult to modify for a learner but I don't really plan to take the time to do this for all of them... I will maybe propose later a second \experiments folder cleaned with this updated but only containing the more important learners).
+
+'three-state' similar to the previous one but with fixed rewards (instead of Bernouilli initially), it is just a simplification of the previous environment, not usefull in practice because the previous one is alread really simple.
+
+'random' supposed to build a random gridworld, I never used it so it probably doesn't work. (don't use it or modify it before)
+
+'random_grid' same as the previous one but with an higher probability to work... (don't use it or modify before)
+
+'4-room' a 7x7 4-room gridworld (20 states without walls), important to no that the learner does not consider walls as states so the environment is communicating.
+
+'2-room' a 9x11 2-room gridworld (55 states without walls) with same remark as previous one.
+
+Additionnally I plan to add in short time a discrete mountain-car environment, I'll update this document when done.
 
 ## Exhaustive list of implemented learners
 
