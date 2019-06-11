@@ -48,6 +48,8 @@ run_exp(rendermode='', testName = 'three-state-bernoulli', sup = '_0')
 ```
 The list of available environments is proposed in following subsection, the 'sup' input parameter add a the given string at the end of binary files name (when you use pickle to save), it usefulle when you parallelize experiments (which is by the way the fastest way to run big experiments in personnal computer like I did, python run only one process in you computer, so you can optimize the computation time by running one python process in each core (times 2 if multi-threaded) that's not the optimal way to di this, and my change this by using multiprocesing package later).
 
+If you modify the "rendermode" input (which I strongly advise against) you can add some dynamic display of the environment, but it is just too slow to be used in practice.
+
 ### Available environments
 
 Not done
