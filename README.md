@@ -13,7 +13,11 @@ Finally this work as been done for research purpose, none of the algorithm is im
 ## How to run an experiment?
 
 The full implementation is done in python, to run an experiment the only thing you need to do is basically to open the \experiments folder in a terminal and to run the following command:
+```
 python3 expUCRL.py
+```
+
+Then you'll finf results (plots and eventually binaries) in the \experiments\results folder. Plot are presented average on the number of replicate chosed and with 95% confidence intervals. All names of results' files are procedurally generated (with name of environment, time horizon and names of learners) so they're quite explicite (but when you just change the number of replicate you may delete the previous results be carefull). 
 
 ### Modify the experiment
 
@@ -42,7 +46,7 @@ Finally to choose the environment modify the 'testName' in the call of the funct
  ```{python}
 run_exp(rendermode='', testName = 'three-state-bernoulli', sup = '_0')
 ```
-list of available environments is proposed in following subsection, the 'sup' input parameter add a the given string at the end of binary files name (when you use pickle to save), it usefulle when you parallelize experiments (which is by the way the fastest way to run big experiments in personnal computer like I did, python run only one process in you computer, so you can optimize the computation time by running one python process in each core (times 2 if multi-threaded) that's not the optimal way to di this, and my change this by using multiprocesing package later).
+The list of available environments is proposed in following subsection, the 'sup' input parameter add a the given string at the end of binary files name (when you use pickle to save), it usefulle when you parallelize experiments (which is by the way the fastest way to run big experiments in personnal computer like I did, python run only one process in you computer, so you can optimize the computation time by running one python process in each core (times 2 if multi-threaded) that's not the optimal way to di this, and my change this by using multiprocesing package later).
 
 ### Available environments
 
