@@ -153,7 +153,28 @@ C_UCRL_C3 the idea here is to exclude from the classes the unsampled state-actio
 C_UCRL_C4 it is the combination of C_UCRL_C2bis and C_UCRL_C3, no interest.
 
 C_UCRL_C5_fixed: here we touch to an interesting idea, this idea it to cut the given classes into subclasses (in order to control, into subclasses, the bias brought by estimated profile mapping on the confidence bounds). Here the criterion used to defined these subclasses depends on some given alpha: all pairs (s, a) in a subclass are such that:
-N(tk, s, a) N(tk, s, a)
+N(tk, s0, a0) / alpha < N(tk, s, a) < N(tk, s0, a0) x alpha
+the objective is to have similar number of samples for all pairs in a subset (and so similar error on estimates) which should allow to prevent contamination of well estimated pairs and alllow good optimism in unknown pairs. This idea has some results in experiments, but its incomplete: have a look to following classes that are more interesting.
+
+C_UCRL_C5_increasing same as before but with alpha increasing over the time (to have all element in same class at the end), precisely alpha = 1 + log(t). Again it is an incomplete idea.
+
+C_UCRL_C6 the idea here is to keep this notion of subclasses, but instead of this alpha idea, a subclass contains all pairs with same experimental support on transition probabilities. It is again an incomplete idea but dealing with the support is interesting as elements outside from the support are the one on wich the unknown profile mapping brought most of it bias (because we cannot estimate the profile mapping outside from the experimental support, as it is an argsort).
+
+C_UCRL_C7_fixed the idea here is to combine C_UCRL_C5_fixed with a notion of optimism on the profile mapping: we build the set of plausible profile mapping using the element-wise confidence interval (see the report) and then at each step of the Extended Value Iteration we choose the most optimistic profile mapping among this set. First this cost a lot computaitonnally, second it does not work well the bernstein bounds we used for this one are not tight enough to have a restricted enough set of profile mapping, with confidence bounds introduce in later work on UCRL3 it may be better, so it should be interesting to come back to this idea at some point. Additionally we stop doing these subclasses when the set of sigma is restricted to one element (which never happend is there are two equal transition probability...).
+
+C_UCRL_C8_fixed incomplete modification of the previous one, can be ignored.
+
+C_UCRL_C9_fixed it is C_UCRL_C5_fixed but using confidence bounds considering the bias brought be estimated sigma on ordered aggregated estimates (these bounds are introduced in the report), these bounds are worse than the aggregated one (used in C-UCRL(C, sigma) and wrongly used in other C-UCRL algorithm). This algorithm is less performing in practice but is closer than something that can be proved to have an upper bound on the regret, no need to take care of it (following classes more interesting).
+
+C_UCRL_C10 this algorithm is the first one introducing some alternative notion to this idea of subclasses. The idea is inspired by the "new"/true bounds we're now using (that are the real confidence bounds on the ordered distribution probabilities, there is still a bias that we are not able to estimate as explained in my report) the idea is th following: instead of subclasses we compute an aggregate estimate based on a subclass but witha different subclass for all pairs. Precisely for all pairs we build the subclasse of all pairs in same class with higher number of samples and then we use this subclass to compute aggregated estimate for the given pair. This allow to have tighter (or at least same) confidence bounds for all pairs (because of properties of used almost unbiased bounds), it was not the case in last classes. This algorithm is not that much performing in practice, but the new idea to use aggregated estimate seems may be the promising one.
+
+C_UCRL_C11 is globally the same algorithm as before but adding optimism on the profile mapping only on elements that are ouside from the experimental support of the transition. this improves experimental result and may be a good compromise to deal with bias we're ignoring so far.
+
+C_UCRL_C12 is a combination of C_UCRLC5_fixed, the bounds we're no using (ones that partially take into account the bias brougth by estimated profile mapping), and the same optimism over profile mapping that the one used in C_UCRL_C11. This algorithm was the best one in practice (over ones using the same bounds), and it should be possible to control the bias on this algorithm in order to have a regret upper bound (but so far we're not able to control this bias, so we continue to explore other strategies on which we can prove things, algorithms based on UCRL3 performs better but it probably come from improvment coming from UCRL3 not from C_UCRL_C things). So this class is interesting, even if we can't prove anything as long as we can't controle the bias.
+
+C_UCRL_C13 is similar to the previous class but we add the 
+
+
 
 ### \learners\C_UCRL.py
 
