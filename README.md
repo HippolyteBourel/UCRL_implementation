@@ -184,36 +184,98 @@ C_UCRL_C14_Lplus_local3 is the same as previous but allowing aggregation of the 
 
 ### \learners\C_UCRL.py
 
+C_UCRL is almost the algorithm presented under this name in our publication to ACML (see my report for further information) everything is similar except the fact that there is no the alpha criterion in the clustering: it perfors really poorly in practice...
+
+C_UCRL_sqrtC same algorithm as the previous one but with the sqrt stopping criterion introduced previously. Not interesting.
+
+C_UCRL_div4C is the algorithm named C-UCRL introduced in our work to ACML (precisely the one run for experiments presented in the paper), still a lot of things to modify on it using the previous subsection but at least it's seems to work on ergodic environments. (with alpha = 4)
+
+C_UCRL_div2C same algorithm but with alpha = 2. No interest in itself, we don't want to tune this parameter because it should be problem dependant.
+
 ### \learners\C_UCRL_old.py
+
+C_UCRL_old is our implementation of the first version of C-UCRL (not working in practice) the clustering as been upgraded since.
 
 ### \learners\UCRL2_L.py
 
-### \learners\UCRL2_MSC.py
+UCRL2_L is our baseline in experiments (see report for more information about it), it the vanilla UCRL2 with Laplace confidence bounds, it seriously outperform the all state of the art in practice (explaining why we based almost everything on it).
+
+UCRL2_L_boost same algorithm but based on UCRL2_boost so sligthly faster in computation time.
+
+UCRL2_L_MSC it is UCRL2_L with the modified stopping criterion based on hypothesis testing as introduced in my report.
+
+UCRL2_L_local same as UCRL2_local (see later) with Laplace bounds. This local method is not working and should be ignored.
+
+UCRL2_L_local2 same as before but with UCRL2_local2 (it the algothim presented as UCRL2-L local in the report).
+
+UCRL2_L_local_MSC is UCRL_L_local with the modified stopping criterion.
+
+UCRL2_L_local2_MSC is UCRL_L_local2 with the modified stopping criterion.
 
 ### \learners\C_UCRL_C_MSC.py
 
+C_UCRL_C_MSC is the naive (and not working) C_UCRL_C with the modified stopping criterion, this code can be reused if you want to test the stopping criterion on another version of C_UCRL_C.
+
 ### \learners\C_UCRL_MSC.py
+
+C_UCRL_MSC is C_UCRL with the modified stopping criterion (same remark as before, in itself this class has no interest but can be re-used.
 
 ### \learners\UCRL_Thompson.py
 
+UCRL_Thompson is the optimistic strategy using posterior sampling introduced by Agrawal and Jia 2017 (with error in the proof of regret), as explained in my report it achieves a linear regret in our environments, it my come from an error in the code, as the proof does not the algorithm may be wrong or finally it may comes from the very bad constants proposed in the paper (which is what we suspect), more necessary on this algorithm (it was just ignired during my internship).
+
 ### \learners\UCRL2_local.py
+
+UCRL2_local, first proposition of version of UCRL2 based on element-wise confidence bounds, but even if it seems to work in practice the inner-maximization in the EVI is not well done so I suggest to ignore it (local2 is more interesting).
 
 ### \learners\UCRL2_local2.py
 
+UCRL2_local2 is the local version of UCRL2 which the implecit baseline of SCAL (and comes from Dann et al. 2014), it practice we're not able to say if it perfoms better than UCRL2 (because it is problem dependant) but even if in itself it presents small interest it is a good base to improve UCRL2 (and it the base we used for UCRL3).
+
 ### \learners\UCRL_L_sqrtSC.py
+
+ UCRL2_L_sqrtSC is UCRL2_L with the sqrt stopping criterion introduced previously, you can ignore it.
 
 ### \learners\C_UCRL_C_sqrtSC.py
 
+C_UCRL_C_sqrtSC is the naive version of C_UCRL_C (not working) with the sqrt stopping criterion (you can ignore but it is an example, really slow but, an example of what change when having more episodes).
+
 ### \learners\C_UCRL_sqrtSC.py
+
+C_UCRL_sqrtSC is C_UCRL with the sqrt stopping criterion (you can ignore but it is an example, really slow but, an example of what change when having more episodes).
 
 ### \learners\UCRL2_peeling.py
 
+UCRL2_peeling is UCRL2 with peeling bounds, Laplace bounds are better.
+
 ### \learners\UCRL2_Bernstein.py
+
+UCRL2_Bernstein is UCRL_local2 with berstein bounds (same as introduced in my report). It is the basis of SCAL.
+
+UCRL2_Bernstein2 same as before but for UCRL_local (no typo mistake, the order changed).
+
+UCRL2_Bernstein_old same as UCRL2_Bernstein but with bad Bernstein's bounds (can be ignored).
+
+UCRL2_Bernstein2_old same as UCRL2_Bernstein2 but with bad Bernstein's bounds (can be ignored).
 
 ### \learners\C_UCRL_C_sigma.py
 
+C_UCRL_C_sigma is the C-UCRL(C, sigma) algorithm as introduced in my report or in our ACML paper (with Laplace bounds).
+
+C_UCRL_C_sigma_plus is C-UCRL(C, sigma) but based on UCRL3 instead of UCRL2-L, it is one of our best practical results in the considered environments.
+
 ### \learners\SCAL.py
+
+SCAL is the SCAL algorithm based on the paper from Fruit et al. 2018 (mostly based on their implementation of EVI with truncated span instead of ScOpt as presented in the paper).
+
+SCAL2 is SCAL but with the inner maximization if the EVI proposed in UCRL2_local, it has no real interest.
+
+SCAL2_L is the same algorithm as the presious one but with Laplace bounds.
+
+SCAL_L is SCAL with Laplace bounds (which still an impressive improvement as for UCRL2).
 
 ### \learners\UCRL_Lplus.py
 
+UCRL2_Lplus is the algorithm denoted UCRL-Lg(p) in my report, it UCRL_L_local2 but with the refined elment-wise Laplace bounds using Bernoulli (and estimated using 16 steps of dichotomic reasearch as explained in th report).
 
+UCRL2_Lplus_local3 is UCRL3 as introduced in my report, it is "work in progress" name. It is the algorithm runned for all results denoted as UCRL3 in my report.
