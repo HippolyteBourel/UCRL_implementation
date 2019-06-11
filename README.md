@@ -92,17 +92,68 @@ All learners are implemented as classes (with a play method that give the policy
 
 I used a lot heritance between classes, so it's no longer really possible to modify the more simple learners without destroying everything.
 
-I decompose the list in subsection depending on the file in which learners are defined (ordered as much I can in the historical order of implementation (so supposed to be coherent considering the heritance problems)).
+If you want to implement a new learner (to compare it to some of implemented ones), the easiest is to have a look to the \learner\UCRL.py file, UCRL2 is implemented in this file, and is clearly the simpler implemented algorithm (\learner\Random.py is also an option even if it not really a learner...) . This give the necessary structure for a learner (necessary functions are play, update and name in practice) then it should not be difficult to add a new learner based on this structure.
+
+I decompose the list in subsection depending on the file in which learners are defined (ordered as much I can in the historical order of implementation (so supposed to be coherent considering the heritance problems)). Names at beginning of each paragraphs are names of the class in the implementation.
 
 ### \learners\UCRL.py
 
+UCRL2 is our first implementation of the vanilla UCRL2 algorithm from Jacksh et al. 2010. Not optimal but some algorithms are based on it (class heritance) so I strongly advice to keep et as it is.
+
+UCRL2_boost is a second implementation if the vanilla UCRL2 algorithm there are small modifications that may improve sligthly the computationnal time, most of following classes inherit from this one.
+
+UCRL2_bis inherit from UCRL2_boost, it's simple (but inefficient) modification of UCRL2 using random policy for unknown states (basically, it's change absolutely nothing because it's already random...). No need to take care of this one.
+
 ### \learners\Random.py
+
+Random is just a random player, playing randomly at each time step and learning nothing, it gives the simpler structure for a learner.
 
 ### \learners\Optimal.py
 
+Opti_swimmer is always playing the "0" action, it the oracle for all riverSwims environments (where the optimal policy is to always go ti the right, which means in our implementation to play action 0) it is also the oracle for three-states environments.
+
+Opti_learner takes the environment as input and then performs a policy iteration on it, it practice I never used it (too slow...) so it may not work.
+
+Opti_77_4room is the oracle for a 7x7 4-room environment, it takes the environment as input (that give it the wrapper to avoid walls from its policy).
+
+Opti_911_2room same as previous one but for a 9x11 2-room.
+
+### \learners\UCRL3.py
+
+Currently this file does not exist (the implementation of UCRL3 used for experiments of the paper is in the \learners\UCRL2_Lplus.py file under it "work in prgress" name. I'll add it soon and additionally I'll implement UCRL3 with modified stopping criterion which is supposed to be (as I know) the best optimistic algorithm in practice without additional knowledge.
+
+### \learners\PSRL.py
+
+There is nothing in this file, I plan to add at some point PSRL (from Osband et al.), because with all refinements of UCRL we have I'm no longer sure that PSRL still outperforms UCRL(3 with modified stopping criterion) (for infinite time horizon) that's a point that deserves to be clarified.
+
 ### \learners\KL_UCRL.py
 
+KL_UCRL is our implementation of the vanilla KL-UCRL algorithm form Filippi et al. 2011. As explained in the report (and pseudo-code is provided) it is impossible to implement KL-UCRL exactly as introduced in its paper (it is mandatory to catch some definition error...). This implementation is partially based on the one of Sadegh Talebi (similar error catching globally). As an "experimental validation" of our choices the code of Sadegh obtains same results on riverSwims environments (which are surprinsingly an order better than the one presented in Filippi's paper, we suspect a wrong rescaling in this paper.
+
 ### \learners\C_UCRL_C.py (this one changed a lot recently, so lot of heritance from what's coming next)
+
+If you don't know the C-UCRL algorithm it is necessary to have look to a paper introducing it (my report does) in order to understand following subsections. This file contains a lot of tries around the C-UCRL(C) algorithm (C-UCRL with classes known and profile mapping unknwown), some of these iterations are discussed in my report bu globally most of our tries are not discussed anywhere (this is the result of a collaborative work with Sadegh Talebi), obviously the one discussed in the paper seems to be the most relevant tries, but ideas in the others are also interesting for some of the other explaining why we kept (all of) them.
+
+C_UCRL_C is the naive implementation of C-UCRL(C), to make it short: it doesn't work, for the explanation have a look to my report.
+
+C_UCRL_C2 the idea here is to randomly (with a decreasing probability over the number of sample for a given pair s, a) replace the estimated profile by a l-shift permutation (with l increasing each time we use the shift), over the time it test all l-shifts. The idea behing was to add some forced exploration in the profile mapping to make the naive implementation works. In practice it does not work.
+
+C_UCRL_C2_sqrtSC it the same algorithm but replacing the classical doubling criterion by what we'll call the sqrt stopping criterion which basically just increase the number of episode by replacing the criterion:
+nu(t, s, a) > N(t, s, a) (doubling criterion)
+by the followig modification:
+nu(t, s, a) > sqrt(N(t, s, a))
+as criterion to end an episode. Obviously it increase the computation time (a lot), to much compared to the gain, so all variant with "sqrtSC" I recommand to ignore it.
+
+C_UCRL_C2bis_sqrtSC same as the previous one but the probability to use the shift lower depending on the time instead of the number of sample, does not work in practice, but there is no reason for this one to "never learn compared to previous one" which were just wrong in general.
+
+C_UCRL_C2bis same as the previous one without this sqrt stopping criterion.
+
+C_UCRL_C3 the idea here is to exclude from the classes the unsampled state-action pairs (implemented having the idea of excluding from classes all states-actions pairs sampled less than N0 times with arbitrary N0 not necesseraly equal to 1 for further tests). This idea is basic but necessary, we should obviously not give aggregated estimate to unknown state-action pairs, it does not make any sense (that should be add to C-UCRL with clustering). Even if this should be used all the time this class in itself has no interest.
+
+C_UCRL_C4 it is the combination of C_UCRL_C2bis and C_UCRL_C3, no interest.
+
+C_UCRL_C5_fixed: here we touch to an interesting idea, this idea it to cut the given classes into subclasses (in order to control, into subclasses, the bias brought by estimated profile mapping on the confidence bounds). Here the criterion used to defined these subclasses depends on some given alpha: all pairs (s, a) in a subclass are such that:
+N(tk, s, a) N(tk, s, a)
 
 ### \learners\C_UCRL.py
 
