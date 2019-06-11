@@ -1,6 +1,6 @@
 # UCRL implementation
 
-This implementation, and related work, is the result of my internship under the supervision of Odalric-Ambrym Maillard and Sadegh Talebi, in the Sequel team of Inria Lille (from february to june 2019). The work on C-UCRL has essentially been done by Mahsa Asadi and my supervisors, I join later for experimental part and improvements of C-UCRL(C).
+This implementation, and related work, is the result of my internship under the supervision of Odalric-Ambrym Maillard and Sadegh Talebi, in the Sequel team of Inria Lille (from february to june 2019). The work on C-UCRL has essentially been done by Mahsa Asadi and my supervisors, I join later for experimental parts and improvements of C-UCRL(C).
 
 The code in itself is in the "experiments" folder, see the first section below for an explanation about how to run an experiment using this implementation.
 
@@ -86,4 +86,56 @@ Additionnally I plan to add in short time a discrete mountain-car environment, I
 
 ## Exhaustive list of implemented learners
 
-To do
+A lot of learner are implemented, but a lot of them are tries (eventually failed ones) or really small modification of other learners, there is a lot of information about relevant learners in my report and additionnally I tried to put a comment above the definition of each learner in the code. I cannot detail everything here, I just propose a short description of each algorithm, if something is not clear, or wrong the easiest is to contact me. Combination between some algorithms may be relevant (for example a big merging of C-UCRL, UCRL3, Modified Stopping Criterion and SCAL, because it is probably the best thing we can currently implement but obviously I didn't had, and will not have, the time to implement all of these combinations). The following list is subject to change (I may add new stuff).
+
+All learners are implemented as classes (with a play method that give the policy at each step and an update function to update after each step), input depends on the learner (some need additional inputs), globally the structure of an update of a learner is defined in a method 'new_episode', and what is called distances are the confidence bounds. The notations in the code are based on the Jacksh et al. paper from 2010 initially but evolve depending on the paper on which the learner is based on.
+
+I used a lot heritance between classes, so it's no longer really possible to modify the more simple learners without destroying everything.
+
+I decompose the list in subsection depending on the file in which learners are defined (ordered as much I can in the historical order of implementation (so supposed to be coherent considering the heritance problems)).
+
+### \learners\UCRL.py
+
+### \learners\Random.py
+
+### \learners\Optimal.py
+
+### \learners\KL_UCRL.py
+
+### \learners\C_UCRL_C.py (this one changed a lot recently, so lot of heritance from what's coming next)
+
+### \learners\C_UCRL.py
+
+### \learners\C_UCRL_old.py
+
+### \learners\UCRL2_L.py
+
+### \learners\UCRL2_MSC.py
+
+### \learners\C_UCRL_C_MSC.py
+
+### \learners\C_UCRL_MSC.py
+
+### \learners\UCRL_Thompson.py
+
+### \learners\UCRL2_local.py
+
+### \learners\UCRL2_local2.py
+
+### \learners\UCRL_L_sqrtSC.py
+
+### \learners\C_UCRL_C_sqrtSC.py
+
+### \learners\C_UCRL_sqrtSC.py
+
+### \learners\UCRL2_peeling.py
+
+### \learners\UCRL2_Bernstein.py
+
+### \learners\C_UCRL_C_sigma.py
+
+### \learners\SCAL.py
+
+### \learners\UCRL_Lplus.py
+
+
