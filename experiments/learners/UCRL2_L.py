@@ -236,16 +236,3 @@ class UCRL2_L_local2_MSC(UCRL2_L_local2):
 		self.updateR()
 		self.t += 1
 		
-
-
-class UCRL3_L(UCRL3):
-	def name(self):
-		return "UCRL3_L"
-	
-	def distances(self):
-		d = self.delta / (2 * self.nS * self.nA)
-		for s in range(self.nS):
-			for a in range(self.nA):
-				n = max(1, self.Nk[s, a])
-				self.r_distances[s, a] = np.sqrt(((1 + 1 / n) * np.log(2 * np.sqrt(n + 1) / d)) / (2 * n))
-				self.p_distances[s, a] = np.sqrt((2 * (1 + 1 / n) * np.log(np.sqrt(n + 1) * (2**(self.nS) - 2) / d)) / n)

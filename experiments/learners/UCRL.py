@@ -290,7 +290,7 @@ class UCRL2_boost:
 # This "UCRL3" algorithm is a slight modfication of UCRL2 (precisely UCRL2_boost considering the implementation) inspired from the ImprovedRandom
 # algorithm. To make it short the idea is to add some forced exploration (trying all the unknown action in every state befor starting the optimism)
 # and to run a random policy in unknown states.
-class UCRL3(UCRL2_boost):
+class UCRL2_bis(UCRL2_boost):
 	def __init__(self,nS, nA, delta):
 		self.nS = nS
 		self.nA = nA
@@ -310,7 +310,7 @@ class UCRL3(UCRL2_boost):
 		# at least one time
 
 	def name(self):
-		return "UCRL3"
+		return "UCRL2_bis"
 
 	# To reinitialize the learner with a given initial state inistate.
 	def reset(self,inistate):
