@@ -7,7 +7,7 @@ from learners.C_UCRL import *
 from learners.C_UCRL_old import *
 from learners.UCRL2_L import *
 #from learners.KL_UCRL_L import *
-from learners.UCRL2_MSC import *
+#from learners.UCRL2_MSC import *
 from learners.C_UCRL_C_MSC import *
 from learners.C_UCRL_MSC import *
 from learners.UCRL_Thompson import *
@@ -21,13 +21,14 @@ from learners.UCRL2_Bernstein import *
 from learners.C_UCRL_C_sigma import *
 from learners.SCAL import *
 from learners.UCRL_Lplus import *
+from learners.UCRL3 import *
 from environments import equivalence
 #from learners.ImprovedMDPLearner2 import *
 from utils import *
 
 def run_exp(rendermode='', testName = "riverSwim", sup = ''):
     timeHorizon=100000
-    nbReplicates=60
+    nbReplicates=10
     
     if testName == "random_grid":
         env, nbS, nbA = buildGridworld(sizeX=8,sizeY=5,map_name="random",rewardStd=0.01, initialSingleStateDistribution=True)
@@ -80,10 +81,10 @@ def run_exp(rendermode='', testName = "riverSwim", sup = ''):
     cumRewards = []
     names = []
     
-    #learner1 = UCRL2_L_MSC( nbS,nbA, delta=0.05)#, c = 10)
-    #names.append(learner1.name())
-    #cumRewards1 = cumulativeRewards(env,learner1,nbReplicates,timeHorizon,rendermode)#, reverse = True)
-    #cumRewards.append(cumRewards1)
+    learner1 = UCRL3_MSC( nbS,nbA, delta=0.05)#, c = 10)
+    names.append(learner1.name())
+    cumRewards1 = cumulativeRewards(env,learner1,nbReplicates,timeHorizon,rendermode)#, reverse = True)
+    cumRewards.append(cumRewards1)
     #pickle.dump(cumRewards1, open(("results/cumRewards_" + testName + "_" + learner1.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
     #learner2 = C_UCRL_C_sigma_plus( nbS,nbA, delta=0.05, C = C, nC = nC, profile_mapping = profile_mapping)
@@ -92,11 +93,11 @@ def run_exp(rendermode='', testName = "riverSwim", sup = ''):
     #cumRewards.append(cumRewards2)
     #pickle.dump(cumRewards2, open(("results/cumRewards_" + testName + "_" + learner2.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
-    learner3 = UCRL2_L_local2( nbS,nbA, delta=0.05)#, C = C, nC = nC)
+    learner3 = UCRL3( nbS,nbA, delta=0.05)#, C = C, nC = nC)
     names.append(learner3.name())
     cumRewards3 = cumulativeRewards(env,learner3,nbReplicates,timeHorizon,rendermode)#, reverse = True)
     cumRewards.append(cumRewards3)
-    pickle.dump(cumRewards3, open(("results/cumRewards_" + testName + "_" + learner3.name() + "_" + str(timeHorizon) + sup), 'wb'))
+    #pickle.dump(cumRewards3, open(("results/cumRewards_" + testName + "_" + learner3.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
     #learner4 = C_UCRL_C9_fixed( nbS,nbA, delta=0.05, C = C, nC = nC)
     #names.append(learner4.name())
@@ -128,29 +129,29 @@ def run_exp(rendermode='', testName = "riverSwim", sup = ''):
     #cumRewards.append(cumRewards8)
     #pickle.dump(cumRewards8, open(("results/cumRewards_" + testName + "_" + learner8.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
-    learner9 = SCAL_L( nbS,nbA, delta=0.05, c = 2)
-    names.append(learner9.name())
-    cumRewards9 = cumulativeRewards(env,learner9,nbReplicates,timeHorizon,rendermode)#, reverse = True)
-    cumRewards.append(cumRewards9)
-    pickle.dump(cumRewards9, open(("results/cumRewards_" + testName + "_" + learner9.name() + "_" + str(timeHorizon) + sup), 'wb'))
+    #learner9 = SCAL_L( nbS,nbA, delta=0.05, c = 2)
+    #names.append(learner9.name())
+    #cumRewards9 = cumulativeRewards(env,learner9,nbReplicates,timeHorizon,rendermode)#, reverse = True)
+    #cumRewards.append(cumRewards9)
+    #pickle.dump(cumRewards9, open(("results/cumRewards_" + testName + "_" + learner9.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
-    learner10 = SCAL_L( nbS,nbA, delta=0.05, c = 5)
-    names.append(learner10.name())
-    cumRewards10 = cumulativeRewards(env,learner10,nbReplicates,timeHorizon,rendermode)
-    cumRewards.append(cumRewards10)
-    pickle.dump(cumRewards10, open(("results/cumRewards_" + testName + "_" + learner10.name() + "_" + str(timeHorizon) + sup), 'wb'))
+    #learner10 = SCAL_L( nbS,nbA, delta=0.05, c = 5)
+    #names.append(learner10.name())
+    #cumRewards10 = cumulativeRewards(env,learner10,nbReplicates,timeHorizon,rendermode)
+    #cumRewards.append(cumRewards10)
+    #pickle.dump(cumRewards10, open(("results/cumRewards_" + testName + "_" + learner10.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
-    learner11 = SCAL_L( nbS,nbA, delta=0.05, c = 10)
-    names.append(learner11.name())
-    cumRewards11 = cumulativeRewards(env,learner11,nbReplicates,timeHorizon,rendermode)#, reverse = True)
-    cumRewards.append(cumRewards11)
-    pickle.dump(cumRewards11, open(("results/cumRewards_" + testName + "_" + learner11.name() + "_" + str(timeHorizon) + sup), 'wb'))
+    #learner11 = SCAL_L( nbS,nbA, delta=0.05, c = 10)
+    #names.append(learner11.name())
+    #cumRewards11 = cumulativeRewards(env,learner11,nbReplicates,timeHorizon,rendermode)#, reverse = True)
+    #cumRewards.append(cumRewards11)
+    #pickle.dump(cumRewards11, open(("results/cumRewards_" + testName + "_" + learner11.name() + "_" + str(timeHorizon) + sup), 'wb'))
     
-    learner12 = SCAL_L( nbS,nbA, delta=0.05, c = 20)
-    names.append(learner12.name())
-    cumRewards12 = cumulativeRewards(env,learner12,nbReplicates,timeHorizon,rendermode)#, reverse = True)
-    cumRewards.append(cumRewards12)
-    pickle.dump(cumRewards12, open(("results/cumRewards_" + testName + "_" + learner12.name() + "_" + str(timeHorizon)+ sup), 'wb'))
+    #learner12 = SCAL_L( nbS,nbA, delta=0.05, c = 20)
+    #names.append(learner12.name())
+    #cumRewards12 = cumulativeRewards(env,learner12,nbReplicates,timeHorizon,rendermode)#, reverse = True)
+    #cumRewards.append(cumRewards12)
+    #pickle.dump(cumRewards12, open(("results/cumRewards_" + testName + "_" + learner12.name() + "_" + str(timeHorizon)+ sup), 'wb'))
     
     if testName == "4-room":
         opti_learner = Opti_77_4room(env.env)
@@ -177,4 +178,4 @@ def run_exp(rendermode='', testName = "riverSwim", sup = ''):
 
 #run_exp(rendermode='pylab')    #Pylab rendering
 #run_exp(rendermode='text')    #Text rendering
-run_exp(rendermode='', testName = 'three-state-bernoulli', sup = '_0') #, testName = 'riverSwimErgo50')#, testName = 'three-state')#-bernoulli')#, testName = '4-room')        #No rendering
+run_exp(rendermode='', testName = 'riverSwim25', sup = '_0') #, testName = 'riverSwimErgo50')#, testName = 'three-state')#-bernoulli')#, testName = '4-room')        #No rendering

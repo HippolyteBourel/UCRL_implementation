@@ -1,4 +1,3 @@
-from learners.UCRL_Lplus import *
 import scipy as sp
 import numpy as np
 
@@ -204,3 +203,25 @@ class UCRL3:
 		self.updateP()
 		self.updateR()
 		self.t += 1
+
+# UCRL3 with modified stopping criterion based on hypothesis testing
+class UCRL3_MSC(UCRL3):
+	def name(self):
+		return "UCRL3-MSC"
+	
+	# To chose an action for a given state (and start a new episode if necessary -> stopping criterion defined here).
+	def play(self,state):
+		if self.t > 2:
+			action  = self.policy[state]
+			s = self.observations[0][-2]
+			a = self.observations[1][-1]
+			#Pk = self.Pk[s, a, state]
+			n = max([1, self.Nk[s, a] + self.vk[s, a]])
+			#d = self.delta / (2 * self.nS * self.nA)
+			temp1 = self.p_estimate[s, a, state] - self.Pk[s, a, state] / n
+			temp0 = - self.p_distances[s, a, state, 0]#(1 + self.epsilon) * self.bH(n, d)
+			temp2 = self.p_distances[s, a, state, 1]
+			if (temp1  > temp2) or (temp0 > temp1) or ( self.vk[state, action] >= max([1, self.Nk[state, action]])): # Stoppping criterion
+				self.new_episode()
+		action  = self.policy[state]
+		return action
