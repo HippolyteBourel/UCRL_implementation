@@ -67,8 +67,8 @@ class MountainCarEnv(gym.Env):
 	# Discretization over 135 states of the state space (9 positions and 15 velocity)
 	def discretize(self, position, velocity):
 		d_pos = self.discretize_p(position)
-		d_vel = int(velocity)
-		state = d_pos * 9 + d_vel
+		d_vel = int(velocity * 100) + 7
+		state = d_pos * 15 + d_vel
 		return state
 
 	def step(self, action):
@@ -81,8 +81,11 @@ class MountainCarEnv(gym.Env):
 		position = np.clip(position, self.min_position, self.max_position)
 		if (position==self.min_position and velocity<0): velocity = 0
 
-		done = bool(position >= self.goal_position)
-		reward = -1.0
+		done = False#bool(position >= self.goal_position)
+		if position >= self.goal_position:
+			reward = 1
+		else:
+			reward = 0#-0.01
 
 		self.state = (position, velocity)
 		return self.dicretize(position, velocity), reward, done, {}
