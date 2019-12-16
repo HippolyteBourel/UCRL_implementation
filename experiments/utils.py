@@ -177,8 +177,8 @@ def plotCumulativeRegrets(names,cumulativerewards_, timeHorizon, testName = "riv
         print(names[i], ' has regret ', avgcum_rs[i][-1], ' after ', len(avgcum_rs[i]), ' time steps with variance ', std_cum_rs[i][-1])
         #pl.show()
     pl.legend()
-    pl.xlabel("Time steps", fontsize=11, fontname = "Arial")
-    pl.ylabel("Regret", fontsize=11, fontname = "Arial")
+    pl.xlabel("Time steps", fontsize=13, fontname = "Arial")
+    pl.ylabel("Regret", fontsize=13, fontname = "Arial")
     pl.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))
     if semilog:
         pl.xscale('log')

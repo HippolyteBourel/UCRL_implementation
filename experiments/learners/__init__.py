@@ -1,2 +1,2 @@
 __all__ = ["random", "UCRL", "Optimal", "KL_UCRL", "C_UCRL_C", "C_UCRL", "UCRL2_L", "KL_UCRL_L", "UCRL2_MSC", "C_UCRL_C_MSC", "C_UCRL_MSC",
-		   "UCRL_Thompson", "UCRL2_local", "UCRL2_L_sqrtSC", "C_UCRL_C_sqrtSC", "C_UCRL_sqrtSC", "UCRL2_peeling"]
+		   "UCRL_Thompson", "UCRL2_local", "UCRL2_L_sqrtSC", "C_UCRL_C_sqrtSC", "C_UCRL_sqrtSC", "UCRL2_peeling", "Value_iter"]

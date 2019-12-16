@@ -7,7 +7,7 @@ from learners.C_UCRL import *
 from learners.C_UCRL_old import *
 from learners.UCRL2_L import *
 #from learners.KL_UCRL_L import *
-from learners.UCRL2_MSC import *
+#from learners.UCRL2_MSC import *
 from learners.C_UCRL_C_MSC import *
 from learners.C_UCRL_MSC import *
 from learners.UCRL_Thompson import *
@@ -21,6 +21,8 @@ from learners.UCRL2_Bernstein import *
 from learners.C_UCRL_C_sigma import *
 from learners.SCAL import *
 from learners.UCRL_Lplus import *
+from learners.UCRL3 import *
+from learners.UCRL3_old import *
 from environments import equivalence
 #from learners.ImprovedMDPLearner2 import *
 from environments import gridworld, discreteMDP
@@ -107,19 +109,19 @@ def run_exp(rendermode='', testName = "riverSwim"):
         #names.append(learner3.name())
         #cumRewards3 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner3.name() + "_" + str(timeHorizon) + sup), 'rb'))
         
-        learner4 = UCRL2_Lplus_local3( nbS,nbA, delta=0.05)#, C = C, nC = nC, sizeSupport = sizeSupport)
+        learner4 = UCRL3( nbS,nbA, delta=0.05)#, C = C, nC = nC, sizeSupport = sizeSupport)
         names.append("UCRL3")#learner4.name())
         cumRewards4 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner4.name() + "_" + str(timeHorizon) + sup), 'rb'))
         
-        #learner5 = UCRL2_Lplus( nbS,nbA, delta=0.05)#, C = C, nC = nC)
-        #names.append(learner5.name())
-        #cumRewards5 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner5.name() + "_" + str(timeHorizon) + sup), 'rb'))
+        learner5 = UCRL2_boost( nbS,nbA, delta=0.05)#, C = C, nC = nC)
+        names.append(learner5.name())
+        cumRewards5 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner5.name() + "_" + str(timeHorizon) + sup), 'rb'))
         
         learner6 = UCRL2_L_boost( nbS,nbA, delta=0.05)#, c = 5)
         names.append("UCRL2-L")#learner6.name())
-        cumRewards6 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner6.name() + "_" + str(timeHorizon) + sup), 'rb'))
+        cumRewards6 += pickle.load(open(("results/cumRewards_" + testName + "_" + "UCRL2_L" + "_" + str(timeHorizon) + sup), 'rb'))
     
-        #learner7 = UCRL2_L_local2( nbS,nbA, delta=0.05)#, C = C, nC = nC)
+        #learner7 = UCRL3_old( nbS,nbA, delta=0.05)#, C = C, nC = nC)
         #names.append(learner7.name())
         #cumRewards7 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner7.name() + "_" + str(timeHorizon) + sup), 'rb'))
     
@@ -127,12 +129,12 @@ def run_exp(rendermode='', testName = "riverSwim"):
         #names.append(learner8.name())
         #cumRewards8 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner8.name() + "_" + str(timeHorizon) + sup), 'rb'))
         
-        learner9 = UCRL2_boost( nbS,nbA, delta=0.05)#, c = 2)
-        names.append(learner9.name())
-        cumRewards9 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner9.name() + "_" + str(timeHorizon) + sup), 'rb'))
+        #learner9 = UCRL2_boost( nbS,nbA, delta=0.05)#, c = 2)
+        #names.append(learner9.name())
+        #cumRewards9 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner9.name() + "_" + str(timeHorizon) + sup), 'rb'))
         
         learner10 = UCRL2_Bernstein( nbS,nbA, delta=0.05)#, c = 5)
-        names.append("UCRL2-Bernstein")#learner10.name())
+        names.append("UCRL2-B")#learner10.name())
         cumRewards10 += pickle.load(open(("results/cumRewards_" + testName + "_" + learner10.name() + "_" + str(timeHorizon) + sup), 'rb'))
     
         learner11 = KL_UCRL( nbS,nbA, delta=0.05)#, c = 5)

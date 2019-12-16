@@ -4,9 +4,30 @@ import scipy as sp
 import numpy as np
 import math
 
+
 class UCRL2_Bernstein(UCRL2_local2):
 	def name(self):
 		return "UCRL2_Bernstein"
+	
+	def beta(self, n, delta):
+		temp = 2 * np.log(np.log(max((np.exp(1), n)))) + np.log(3 / delta)
+		return temp
+
+	# A difference with "real" bernstein bounds: here we fix r_max to 1 (it is the case in our test base) update 19/09/19: from ALT
+	def distances(self):
+		delta = self.delta / (2 * self.nS * self.nA)
+		for s in range(self.nS):
+			for a in range(self.nA):
+				n = max(1, self.Nk[s, a])
+				self.r_distances[s, a] = np.sqrt(self.r_estimate[s, a] * self.beta(n, delta) / n) + self.beta(n, delta) / (3 * n)
+				for next_s in range(self.nS):
+					p = self.p_estimate[s, a, next_s]
+					temp = np.sqrt(p * self.beta(n, delta) / n) + self.beta(n, delta) / (3 * n)
+					self.p_distances[s, a, next_s] = temp
+
+class UCRL2_Bernstein_old(UCRL2_local2):
+	def name(self):
+		return "UCRL2_Bernstein(old)"
 
 	# A difference with "real" bernstein bounds: here we fix r_max to 1 (it is the case in our test base)
 	def distances(self):
